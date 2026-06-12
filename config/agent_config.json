@@ -1,0 +1,46 @@
+{
+  "name": "NIAHO Compliance Agent",
+  "description": "Agentic RAG assistant for DNV NIAHO healthcare accreditation standards. Returns cited, source-grounded answers and refuses out-of-scope questions.",
+  "provider_id": "OpenAI",
+  "model": "gpt-5.4-mini",
+  "temperature": 0.2,
+  "top_p": 0.9,
+  "llm_credential_id": "lyzr_openai",
+  "response_format": { "type": "text" },
+  "features": [
+    {
+      "type": "MEMORY",
+      "config": {
+        "provider": "cognis",
+        "lyzr_memory": {
+          "provider_type": "cognis",
+          "params": {
+            "cross_session": false,
+            "instructions": "Focus on the specific standards, chapters, and section IDs the user has asked about, and the compliance topic of the current conversation. Retain which standards were already cited so follow-up questions can reference them. Ignore greetings and small talk."
+          }
+        }
+      },
+      "priority": 0
+    },
+    {
+      "type": "KNOWLEDGE_BASE",
+      "config": {
+        "lyzr_rag": {
+          "base_url": "https://rag-prod.studio.lyzr.ai",
+          "rag_id": "6a19aecb520868e71d6606a5",
+          "rag_name": "niaho_accreditation_standardssaxq",
+          "params": {
+            "top_k": 20,
+            "retrieval_type": "mmr",
+            "score_threshold": 0
+          }
+        },
+        "agentic_rag": []
+      },
+      "priority": 0
+    }
+  ],
+  "tools": [],
+  "tool_usage_description": "{}",
+  "managed_agents": []
+}
