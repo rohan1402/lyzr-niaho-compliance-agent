@@ -1,8 +1,8 @@
 # Experiment: does raising top_k fix bare-ID exact-citation retrieval?
 
 **Date:** 2026-06-12
-**Agent:** NIAHO Compliance Agent (`6a19b313b7546fc79c71354f`), model `gpt-5.4-mini`, temperature 0.7
-**Knowledge base:** `niaho_accreditation_standardssaxq` (`rag_id 6a19aecb520868e71d6606a5`), MMR, score_threshold 0
+**Agent:** NIAHO Compliance Agent (`<agent_id>`), model `gpt-5.4-mini`, temperature 0.7
+**Knowledge base:** `niaho_accreditation_standardssaxq` (`<rag_id>`), MMR, score_threshold 0
 
 ## Question
 

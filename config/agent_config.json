@@ -27,7 +27,7 @@
       "config": {
         "lyzr_rag": {
           "base_url": "https://rag-prod.studio.lyzr.ai",
-          "rag_id": "6a19aecb520868e71d6606a5",
+          "rag_id": "<SET_FROM_STUDIO_KB_ID>",
           "rag_name": "niaho_accreditation_standardssaxq",
           "params": {
             "top_k": 20,

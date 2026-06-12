@@ -1,7 +1,7 @@
 # Experiments round 2: what actually makes exact-citation lookup reliable?
 
 **Date:** 2026-06-12
-**Agent:** NIAHO Compliance Agent (`6a19b313b7546fc79c71354f`), top_k 20 throughout
+**Agent:** NIAHO Compliance Agent (`<agent_id>`), top_k 20 throughout
 **Baseline:** see `docs/topk-experiment.md` (round 1: top_k does not fix completeness; bare-ID complete 0/15; title-expanded complete 1/3 at temperature 0.7)
 
 Four experiments. The agent's live config was temporarily modified only in

@@ -55,7 +55,7 @@ It handles three query intents: semantic synthesis, exact-citation lookup (verba
 pip install -r requirements.txt
 
 cp .env.example .env
-# fill in LYZR_AGENT_API_KEY (LYZR_KB_ID is an optional override; the live KB id is committed)
+# fill in LYZR_AGENT_API_KEY and LYZR_KB_ID (the Studio KB id)
 
 export $(grep -v '^#' .env | xargs)
 
@@ -74,7 +74,7 @@ The most useful outcome of this build was a retrieval limitation worth documenti
 
 Semantic questions about a standard retrieved it reliably, but a request phrased around the bare standard ID (for example "show me the exact text of IC.1") is unreliable: across 20 fresh-session runs at two temperatures it either refused or returned a confident *partial* rendering, and the standard's opening paragraph never surfaced once. I ruled out the score threshold (it failed even at zero). The root cause is twofold. First, the query embedding: a bare identifier like "IC.1" carries almost no semantic weight, so it lands near only some of the standard's chunks (the SR enumerations) and never near others (the intro block) — the classic weakness of single-path vector RAG. Second, the standard spans multiple chunks, so any single query surfaces the subset its phrasing resembles; raising top_k from 20 to 60 raised the answer rate (2/5 → 5/5) but never once produced the complete standard (0/15) and introduced duplicated text. For a compliance tool that partial-but-confident failure mode is worse than a refusal.
 
-The instructions include a query-expansion step (expand a bare ID to its title "before retrieving") — and the experiments showed it cannot work here: with Lyzr's managed RAG, retrieval runs platform-side on the raw message before the model executes, so instructions cannot influence which chunks arrive. What does work, measured: putting the title in the query itself (client-side expansion), which at temperature 0.2 produced complete verbatim citations 6/6 times; and two-pass stitching (ask for the standard, then "continue with SR.3–SR.6"), complete 3/3. In production the cleaner fix is unchanged: route exact-citation queries to a direct lookup tool that bypasses embeddings, while semantic questions go to vector search — intent-based retrieval routing.
+The instructions include a query-expansion step (expand a bare ID to its title "before retrieving") — and the experiments showed it cannot work here: with Lyzr's managed RAG, retrieval runs platform-side on the raw message before the model executes, so instructions cannot influence which chunks arrive. The step is retained in the instructions deliberately: a no-op on managed RAG, it documents the intended behavior and would take effect under a retrieval path the agent controls (agentic RAG or self-hosted retrieval). What does work, measured: putting the title in the query itself (client-side expansion), which at temperature 0.2 produced complete verbatim citations 6/6 times; and two-pass stitching (ask for the standard, then "continue with SR.3–SR.6"), complete 3/3. In production the cleaner fix is unchanged: route exact-citation queries to a direct lookup tool that bypasses embeddings, while semantic questions go to vector search — intent-based retrieval routing.
 
 The full diagnosis and production notes are in [`docs/build-writeup.md`](docs/build-writeup.md); the run-by-run data is in the two experiment reports above.
 

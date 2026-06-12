@@ -12,15 +12,15 @@ deployed agent matches the repo.
 
 Usage:
   export LYZR_AGENT_API_KEY=...      # from the Lyzr dashboard / Agent API panel
-  export LYZR_KB_ID=...              # Studio KB id (optional override, see note)
+  export LYZR_KB_ID=...              # Studio KB id (required, see note)
   export LYZR_AGENT_ID=...           # set to update an existing agent instead of creating
   python src/deploy_agent.py
 
 Note on the knowledge base: the KB itself (uploaded NIAHO PDF, parser, embedding
 model) is provisioned once in Studio and referenced by features[].config.lyzr_rag.rag_id
-in config/agent_config.json, which ships with the live KB id. Set LYZR_KB_ID only to
-point the deploy at a different KB. The config schema mirrors a live get_agent()
-export from lyzr-python-sdk 0.1.5.
+in config/agent_config.json. The committed config carries a placeholder for the id,
+so export LYZR_KB_ID (or fill rag_id directly) before deploying. The config schema
+mirrors a live get_agent() export from lyzr-python-sdk 0.1.5.
 """
 
 import json
